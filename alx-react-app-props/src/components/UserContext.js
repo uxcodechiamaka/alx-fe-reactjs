@@ -3,7 +3,7 @@ import React, { createContext } from 'react';
 
 export const UserContext = createContext();
 
-export const UserProvider = ({ children }) => {
+const UserProvider = ({ children }) => {
   const user = {
     name: 'John Doe',
     email: 'john@example.com',
@@ -15,3 +15,5 @@ export const UserProvider = ({ children }) => {
     </UserContext.Provider>
   );
 };
+
+export default UserProvider;
