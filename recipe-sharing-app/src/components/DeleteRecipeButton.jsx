@@ -1,15 +1,23 @@
-import { useNavigate } from 'react-router-dom';
+// src/components/DeleteRecipeButton.jsx
+
+import React from 'react';
+import { useNavigate } from 'react-router-dom'; // <-- Required for redirecting after deletion
+import { useRecipeStore } from '../store/recipeStore'; // <-- Import your Zustand store
 
 const DeleteRecipeButton = ({ recipeId }) => {
-  const navigate = useNavigate();
+  const deleteRecipe = useRecipeStore(state => state.deleteRecipe); // <-- Access delete action
+  const navigate = useNavigate(); // <-- Used to redirect after deletion
 
   const handleDelete = () => {
-    // your delete logic here
-    // then:
-    navigate('/');
+    deleteRecipe(recipeId);       // <-- Call the delete function
+    navigate('/');                // <-- Redirect to home or recipe list
   };
 
-  return <button onClick={handleDelete}>Delete</button>;
+  return (
+    <button onClick={handleDelete} className="bg-red-500 text-white px-4 py-2 rounded">
+      Delete Recipe
+    </button>
+  );
 };
 
 export default DeleteRecipeButton;
