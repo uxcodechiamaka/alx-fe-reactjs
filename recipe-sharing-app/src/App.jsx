@@ -1,15 +1,27 @@
-import { Routes, Route } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import ViewRecipe from './pages/ViewRecipe';
+// src/App.jsx
+
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+import Home from './pages/Home';
+import AddRecipe from './pages/AddRecipe';
 import EditRecipe from './pages/EditRecipe';
+import RecipeDetails from './pages/RecipeDetails';
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/view/:id" element={<ViewRecipe />} />
-      <Route path="/edit/:id" element={<EditRecipe />} />
-    </Routes>
+    <Router>
+      <div className="max-w-4xl mx-auto p-4">
+        <h1 className="text-3xl font-bold text-center mb-6">Recipe Sharing App</h1>
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/add" element={<AddRecipe />} />
+          <Route path="/edit/:id" element={<EditRecipe />} />
+          <Route path="/recipe/:id" element={<RecipeDetails />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
