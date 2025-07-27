@@ -1,18 +1,16 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import RecipeList from './components/RecipeList';
-import AddRecipeForm from './components/AddRecipeForm';
-import RecipeDetails from './components/RecipeDetails';
+import { Routes, Route } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import ViewRecipe from './pages/ViewRecipe';
+import EditRecipe from './pages/EditRecipe';
 
-const App = () => {
+function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<RecipeList />} />
-        <Route path="/add" element={<AddRecipeForm />} />
-        <Route path="/recipe/:id" element={<RecipeDetails />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/view/:id" element={<ViewRecipe />} />
+      <Route path="/edit/:id" element={<EditRecipe />} />
+    </Routes>
   );
-};
+}
 
 export default App;
