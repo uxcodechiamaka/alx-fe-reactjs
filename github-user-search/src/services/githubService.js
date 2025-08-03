@@ -9,10 +9,7 @@ export const fetchUserData = async ({ username, location, repos }) => {
     .filter(Boolean)
     .join(" ");
 
-  const url = `https://api.github.com/search/users?q=${encodeURIComponent(
-    query
-  )}`;
-
+  const url = `https://api.github.com/search/users?q=${encodeURIComponent(query)}`;
   const response = await axios.get(url);
   return response.data.items;
 };
