@@ -1,15 +1,15 @@
-import axios from "axios";
+export const searchUsers = async ({ username, location, minRepos }) => {
+  let query = username || '';
 
-export const fetchUserData = async ({ username, location, repos }) => {
-  const query = [
-    username && `${username} in:login`,
-    location && `location:${location}`,
-    repos && `repos:>=${repos}`,
-  ]
-    .filter(Boolean)
-    .join(" ");
+  if (location) {
+    query += `+location:${location}`;
+  }
 
-  const url = `https://api.github.com/search/users?q=${encodeURIComponent(query)}`;
-  const response = await axios.get(url);
-  return response.data.items;
-};
+  if (minRepos) {
+    query += `+repos:>=${minRepos}`;
+  }
+
+  const response = await fetch(`https://api.github.com/search/users?q=${query}`);
+  const data = await response.json();
+  return data.items; // contains the array of user results
+}
