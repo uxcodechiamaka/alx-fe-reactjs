@@ -19,6 +19,13 @@ export const useRecipeStore = create((set) => ({
       favorites: state.favorites.filter(favId => favId !== id), 
     })),
 
+    updateRecipe: (updatedRecipe) =>
+    set(state => ({
+      recipes: state.recipes.map(recipe =>
+        recipe.id === updatedRecipe.id ? updatedRecipe : recipe
+      ),
+    })),
+
   removeFavorite: (recipeId) =>
     set((state) => ({
       favorites: state.favorites.filter((id) => id !== recipeId),
