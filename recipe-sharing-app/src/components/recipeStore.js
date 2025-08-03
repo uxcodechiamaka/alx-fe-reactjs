@@ -5,8 +5,8 @@ export const useRecipeStore = create((set) => ({
   favorites: [],
   recommendations: [],
 
-  addRecipe:(newRecipe) =>
-    set((state)=>({recipes: [...state.recipes, newRecipe]})),
+  addRecipe:(setRecipes) =>
+    set((state)=>({recipes: [...state.recipes, setRecipes]})),
 
   addFavorite: (recipeId) =>
     set((state) => ({
