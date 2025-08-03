@@ -4,6 +4,7 @@ import RecipeList from '../components/RecipeList';
 import FavoritesList from '../components/FavoritesList';
 import RecommendationsList from '../components/RecommendationsList';
 import AddRecipeForm from './components/AddRecipeForm';
+import RecipeDetails from './components/RecipeDetails';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 const Home = () => {
@@ -15,6 +16,7 @@ const Home = () => {
       <Route path='/search' element={SearchBar} />
       <Route path='/favorite' element={FavoritesList} />
       <Route path='/recomendation' element={RecommendationsList} />
+      <Route path='/details' element={RecipeDetails} />
       </Routes>
     </BrowserRouter>
   );

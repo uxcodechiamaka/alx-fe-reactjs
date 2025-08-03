@@ -20,7 +20,7 @@ const RecipeList = () => {
     <div>
       <h2 className="text-xl font-bold mb-2">All Recipes</h2>
       {recipes.map(recipe => (
-        <Link key={recipe.id} className="mb-4 border p-2 rounded">
+        <div key={recipe.id} className="mb-4 border p-2 rounded">
           <h3 className="font-semibold">{recipe.title}</h3>
           <Link to='/add'>Add New Recipe</Link>
           <p>{recipe.description}</p>
