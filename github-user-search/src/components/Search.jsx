@@ -1,50 +1,68 @@
 import React, { useState } from "react";
-import fetchUserData from "../services/githubService";
+import { fetchUserData } from "../services/githubService";
 
 const Search = () => {
-  const [username, setUsername] = useState("");
-  const [userData, setUserData] = useState(null);
+  const [formData, setFormData] = useState({
+    username: "",
+    location: "",
+    repos: "",
+  });
+
+  const [results, setResults] = useState([]);
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError("");
-    setUserData(null);
-
     try {
-      const data = await fetchUserData(username);
-      setUserData(data);
+      const users = await fetchUserData(formData);
+      setResults(users);
+      if (users.length === 0) {
+        setError("Looks like we can't find the user.");
+      }
     } catch (err) {
-      setError("Looks like we cant find the user");
-    } finally {
-      setLoading(false);
+      setError("Something went wrong. Please try again.");
     }
   };
 
   return (
     <div>
+      <h2>GitHub User Search</h2>
       <form onSubmit={handleSubmit}>
         <input
-          type="text"
-          placeholder="Enter GitHub username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          name="username"
+          placeholder="GitHub username"
+          onChange={handleChange}
+        />
+        <input
+          name="location"
+          placeholder="Location (e.g., Lagos)"
+          onChange={handleChange}
+        />
+        <input
+          name="repos"
+          type="number"
+          placeholder="Min repos (e.g., 10)"
+          onChange={handleChange}
         />
         <button type="submit">Search</button>
       </form>
 
-      {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
 
-      {userData && (
-        <div>
-          <img src={userData.avatar_url} alt={userData.login} width="100" />
-          <h3>login: {userData.login}</h3>
-          <p>Followers: {userData.followers}</p>
+      {results.map((user) => (
+        <div key={user.id} style={{ marginTop: "20px" }}>
+          <img src={user.avatar_url} alt={user.login} width="50" />
+          <p>{user.login}</p>
+          <a href={user.html_url} target="_blank" rel="noreferrer">
+            View Profile
+          </a>
         </div>
-      )}
+      ))}
     </div>
   );
 };

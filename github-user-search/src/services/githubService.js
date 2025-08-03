@@ -1,9 +1,18 @@
-// src/services/githubService.js
 import axios from "axios";
 
-const fetchUserData = async (username) => {
-  const response = await axios.get(`https://api.github.com/users/${username}`);
-  return response.data;
-};
+export const fetchUserData = async ({ username, location, repos }) => {
+  const query = [
+    username && `${username} in:login`,
+    location && `location:${location}`,
+    repos && `repos:>=${repos}`,
+  ]
+    .filter(Boolean)
+    .join(" ");
 
-export default fetchUserData;
+  const url = `https://api.github.com/search/users?q=${encodeURIComponent(
+    query
+  )}`;
+
+  const response = await axios.get(url);
+  return response.data.items;
+};
