@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import fetchUserData from "../services/githubService";
 
-function Search() {
-  const [username, setUsername] = useState('');
+const Search = () => {
+  const [username, setUsername] = useState("");
   const [userData, setUserData] = useState(null);
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
 
-  const handleSearch = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError(false);
+    setError("");
+    setUserData(null);
+
     try {
-      const response = await fetch(`https://api.github.com/users/${username}`);
-      if (!response.ok) throw new Error();
-      const data = await response.json();
+      const data = await fetchUserData(username);
       setUserData(data);
     } catch (err) {
-      setError(true);
-      setUserData(null);
+      setError("Looks like we cant find the user");
     } finally {
       setLoading(false);
     }
@@ -25,27 +25,28 @@ function Search() {
 
   return (
     <div>
-      <form onSubmit={handleSearch}>
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
+          placeholder="Enter GitHub username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          placeholder="Search GitHub user"
         />
         <button type="submit">Search</button>
       </form>
 
       {loading && <p>Loading...</p>}
-      {error && <p>Looks like we can’t find the user.</p>}
+      {error && <p>{error}</p>}
+
       {userData && (
         <div>
-          <img src={userData.avatar_url} alt="avatar" width="100" />
-          <p>{userData.name}</p>
-          <a href={userData.html_url} target="_blank" rel="noopener noreferrer">GitHub Profile</a>
+          <img src={userData.avatar_url} alt={userData.login} width="100" />
+          <h3>login: {userData.login}</h3>
+          <p>Followers: {userData.followers}</p>
         </div>
       )}
     </div>
   );
-}
+};
 
 export default Search;
