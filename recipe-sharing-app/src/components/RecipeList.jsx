@@ -1,8 +1,10 @@
 // src/components/RecipeList.jsx
 import React from 'react';
 import { useRecipeStore } from '../store/recipeStore';
+import { Link } from 'react-router-dom';
 
 const RecipeList = () => {
+
   const { recipes, favorites, addFavorite, removeFavorite } = useRecipeStore(state => ({
     recipes: state.recipes,
     favorites: state.favorites,
@@ -18,8 +20,9 @@ const RecipeList = () => {
     <div>
       <h2 className="text-xl font-bold mb-2">All Recipes</h2>
       {recipes.map(recipe => (
-        <div key={recipe.id} className="mb-4 border p-2 rounded">
+        <Link key={recipe.id} className="mb-4 border p-2 rounded">
           <h3 className="font-semibold">{recipe.title}</h3>
+          <Link to='/add'>Add New Recipe</Link>
           <p>{recipe.description}</p>
           <button
             onClick={() => toggleFavorite(recipe.id)}
